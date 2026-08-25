@@ -1,0 +1,31 @@
+{
+  "name": "videoselz-analytics-api",
+  "version": "1.0.0",
+  "description": "Shoppable video analytics API for the Videoselz take-home",
+  "main": "dist/server.js",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "seed": "tsx src/db/seed.ts",
+    "migrate": "tsx src/db/migrate.ts"
+  },
+  "keywords": ["videoselz", "analytics", "express", "sqlite"],
+  "author": "Chhavi Gupta",
+  "license": "MIT",
+  "dependencies": {
+    "better-sqlite3": "^11.10.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.5.0",
+    "express": "^4.21.2",
+    "zod": "^3.25.67"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.13",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.3",
+    "@types/node": "^22.15.32",
+    "tsx": "^4.20.3",
+    "typescript": "^5.8.3"
+  }
+}
