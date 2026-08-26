@@ -1,0 +1,162 @@
+.wrap {
+  margin-top: 20px;
+  background: var(--card);
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  padding: 20px 22px 16px;
+  box-shadow: var(--shadow);
+}
+
+.head {
+  margin-bottom: 16px;
+}
+
+.title {
+  margin: 0;
+  font-size: 15px;
+  font-weight: 600;
+  letter-spacing: -0.02em;
+}
+
+.sub {
+  margin: 4px 0 0;
+  font-size: 13px;
+  color: var(--muted);
+}
+
+.plot,
+.empty {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  align-items: stretch;
+  gap: 6px;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+
+.empty {
+  height: 160px;
+  align-items: flex-end;
+  padding-bottom: 48px;
+}
+
+.skel {
+  flex: 1;
+  border-radius: 6px 6px 2px 2px;
+  background: var(--track);
+}
+
+.col {
+  flex: 1 0 76px;
+  min-width: 76px;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.hit {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  height: 156px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 6px;
+  cursor: pointer;
+}
+
+.pct {
+  font-size: 10px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  letter-spacing: -0.02em;
+}
+
+.bar {
+  display: block;
+  width: 22px;
+  height: var(--h, 8%);
+  border-radius: 5px 5px 2px 2px;
+  background: #c5d8ec;
+}
+
+.hit[data-star='true'] .bar {
+  background: var(--brand);
+}
+
+.hit[data-active='true'] .pct {
+  color: var(--ink);
+}
+
+.hit[data-active='true'] .bar {
+  background: #4a9ada;
+}
+
+.hit[data-star='true'][data-active='true'] .bar {
+  background: var(--brand-hover);
+}
+
+.product {
+  margin: 8px 0 0;
+  font-size: 11px;
+  font-weight: 600;
+  line-height: 1.3;
+  text-align: center;
+  letter-spacing: -0.01em;
+  overflow-wrap: anywhere;
+}
+
+.readout {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px 10px;
+  margin: 14px 0 0;
+  padding-top: 12px;
+  border-top: 1px solid var(--line);
+  font-size: 13px;
+}
+
+.readProduct {
+  font-weight: 600;
+}
+
+.readClip {
+  color: var(--muted);
+}
+
+.readClip::before {
+  content: '·';
+  margin-right: 10px;
+  color: var(--line);
+}
+
+.readRate {
+  margin-left: auto;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: -0.03em;
+  color: var(--brand);
+}
+
+@media (max-width: 680px) {
+  .wrap {
+    padding: 16px 14px 12px;
+  }
+
+  .col {
+    flex: 0 0 80px;
+  }
+
+  .readRate {
+    margin-left: 0;
+  }
+}

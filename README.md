@@ -42,7 +42,7 @@ SQLite file: `backend/data/videoselz.db` (gitignored).
 
 | Command | What it does |
 |---|---|
-| `npm run seed` (backend) | Applies `schema.sql` and inserts products, videos, and ~3k engagement events if the DB is empty |
+| `npm run seed` (backend) | Applies `schema.sql` and inserts Foxtale products, 12 UGC clips, and ~3k engagement events if the DB is empty |
 | `npm run seed -- --reset` | Wipes and reseeds |
 | `npm run migrate` | Schema only |
 

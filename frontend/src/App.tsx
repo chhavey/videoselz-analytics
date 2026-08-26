@@ -5,7 +5,7 @@ import { ClipChart } from './components/ClipChart';
 import { VideoTable } from './components/VideoTable';
 import { useAnalytics } from './hooks/useAnalytics';
 import styles from './App.module.css';
-import { conversionRate, formatCount, formatPercent, formatPrice, oneInN } from './utils/metrics';
+import { formatCount, formatPercent, oneInN } from './utils/metrics';
 
 export default function App() {
   const {
@@ -53,6 +53,10 @@ export default function App() {
             Catalog
           </button>
         </nav>
+        <div className={styles.advertiser} title="Advertiser">
+          <p className={styles.advertiserName}>Foxtale</p>
+          <p className={styles.advertiserMeta}>Shopify · Beauty</p>
+        </div>
         <div className={styles.topActions}>
           <span className={styles.storeChip}>Last 14 days</span>
           <button
@@ -69,39 +73,43 @@ export default function App() {
 
       <main id="main" className={styles.main}>
         <div className={styles.split}>
-          <section className={styles.card} aria-label="Conversion">
-            <p className={styles.kicker}>Store conversion</p>
-            <p className={styles.rate}>{formatPercent(storeCvr)}</p>
-            <p className={styles.rateHint}>{oneInN(storeCvr) ?? 'Add to carts ÷ views'}</p>
-            <div className={styles.stats}>
-              <div>
-                <p className={styles.statLabel}>Views</p>
-                <p className={styles.statValue}>{formatCount(summary.views)}</p>
-              </div>
-              <div>
-                <p className={styles.statLabel}>Clicks</p>
-                <p className={styles.statValue}>{formatCount(summary.clicks)}</p>
-              </div>
-              <div>
-                <p className={styles.statLabel}>Add to carts</p>
-                <p className={styles.statValue}>{formatCount(summary.conversions)}</p>
-              </div>
+          <section className={`${styles.card} ${styles.conversion}`} aria-label="Conversion">
+            <div className={styles.heroHead}>
+              <p className={styles.kicker}>Foxtale · Store conversion</p>
+              <p className={styles.starLabel}>Top clip</p>
             </div>
-            {star ? (
-              <div className={styles.star}>
-                <span className={styles.starThumb} aria-hidden="true">
-                  <PlayFill size={16} />
-                </span>
-                <div className={styles.starCopy}>
-                  <p className={styles.starLabel}>Highest converting clip</p>
-                  <p className={styles.starTitle}>{star.title}</p>
-                  <p className={styles.starMeta}>
-                    {star.productName} · {formatPrice(star.productPrice)}
-                  </p>
+            <div className={styles.hero}>
+              <div className={styles.heroCopy}>
+                <div>
+                  <p className={styles.rate}>{formatPercent(storeCvr)}</p>
+                  <p className={styles.rateHint}>{oneInN(storeCvr) ?? 'Add to carts ÷ views'}</p>
+                  <p className={styles.heroCredit}>12% Niacinamide Clarifying Serum · ₹645</p>
                 </div>
-                <p className={styles.starRate}>{formatPercent(conversionRate(star.conversions, star.views))}</p>
+                <dl className={styles.stats}>
+                  <div>
+                    <dt className={styles.statLabel}>Views</dt>
+                    <dd className={styles.statValue}>{formatCount(summary.views)}</dd>
+                  </div>
+                  <div>
+                    <dt className={styles.statLabel}>Clicks</dt>
+                    <dd className={styles.statValue}>{formatCount(summary.clicks)}</dd>
+                  </div>
+                  <div>
+                    <dt className={styles.statLabel}>Add to carts</dt>
+                    <dd className={styles.statValue}>{formatCount(summary.conversions)}</dd>
+                  </div>
+                </dl>
               </div>
-            ) : null}
+              <figure className={styles.star}>
+                <img
+                  className={styles.starStill}
+                  src="/foxtale-best-ad.jpg"
+                  alt="Foxtale shoppable video: 12% Niacinamide Clarifying Serum"
+                  width={466}
+                  height={1024}
+                />
+              </figure>
+            </div>
           </section>
 
           <aside className={styles.card}>

@@ -3,92 +3,95 @@ import { migrate } from './migrate';
 
 type EventType = 'view' | 'click' | 'add_to_cart';
 
+// Foxtale catalog (foxtale-consumer.myshopify.com/products.json).
+// Prices are integer rupees. The niacinamide 30ml uses ₹645 from the
+// shoppable reel overlay; the public JSON also lists a 10ml mini at ₹249.
 const PRODUCTS = [
-  { name: 'Silk Slip Dress', price: 8900 },
-  { name: 'Everyday Lace Bralette', price: 4200 },
-  { name: 'Cloudfoam Runner', price: 12900 },
-  { name: 'Merino Crew Sock Pack', price: 2400 },
-  { name: 'Matte Lip Oil', price: 2800 },
-  { name: 'Ceramic Pour-Over Set', price: 6400 },
+  { name: '12% Niacinamide Clarifying Serum', price: 645 },
+  { name: 'Cherry-Collagen Clay Mask', price: 649 },
+  { name: 'Vitamin C Brightening Moisturizer', price: 545 },
+  { name: 'Ice-burst SPF 50 Matte Gel Sunscreen', price: 399 },
+  { name: 'Glow Sunscreen SPF 50', price: 375 },
+  { name: 'Super Glow Face Wash', price: 199 },
 ] as const;
 
 const VIDEOS: Array<{ productName: string; title: string; videoUrl: string }> = [
   {
-    productName: 'Silk Slip Dress',
-    title: 'Get ready with me — silk slip',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/silk-slip-grwm.mp4',
+    productName: '12% Niacinamide Clarifying Serum',
+    title: 'Azelaic Acid. Apply, wait.',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-niacinamide-apply.mp4',
   },
   {
-    productName: 'Silk Slip Dress',
-    title: 'How it drapes in daylight',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/silk-slip-daylight.mp4',
+    productName: '12% Niacinamide Clarifying Serum',
+    title: '12% Niacinamide — week two',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-niacinamide-week2.mp4',
   },
   {
-    productName: 'Everyday Lace Bralette',
-    title: 'Soft support, no straps showing',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/bralette-fit.mp4',
+    productName: '12% Niacinamide Clarifying Serum',
+    title: 'T-zone oil, this serum',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-niacinamide-tzone.mp4',
   },
   {
-    productName: 'Everyday Lace Bralette',
-    title: 'Three outfits, one bralette',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/bralette-outfits.mp4',
+    productName: 'Cherry-Collagen Clay Mask',
+    title: 'Cherry-collagen, ten minutes',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-clay-ten.mp4',
   },
   {
-    productName: 'Cloudfoam Runner',
-    title: 'Unboxing the Cloudfoam Runner',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/runner-unbox.mp4',
+    productName: 'Cherry-Collagen Clay Mask',
+    title: 'Sunday clay mask reset',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-clay-sunday.mp4',
   },
   {
-    productName: 'Cloudfoam Runner',
-    title: '5K in the rain — still dry',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/runner-rain.mp4',
+    productName: 'Vitamin C Brightening Moisturizer',
+    title: 'Moisturizer that sits under SPF',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-moist-spf.mp4',
   },
   {
-    productName: 'Merino Crew Sock Pack',
-    title: 'Why merino over cotton',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/socks-merino.mp4',
+    productName: 'Vitamin C Brightening Moisturizer',
+    title: 'Papaya enzyme AM',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-moist-am.mp4',
   },
   {
-    productName: 'Matte Lip Oil',
-    title: 'One swipe, all-day tint',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/lip-oil-swipe.mp4',
+    productName: 'Ice-burst SPF 50 Matte Gel Sunscreen',
+    title: 'Matte gel SPF, oily skin',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-iceburst-matte.mp4',
   },
   {
-    productName: 'Matte Lip Oil',
-    title: 'Shade match: rosewood',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/lip-oil-rosewood.mp4',
+    productName: 'Ice-burst SPF 50 Matte Gel Sunscreen',
+    title: 'No white cast, SPF 50',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-iceburst-cast.mp4',
   },
   {
-    productName: 'Ceramic Pour-Over Set',
-    title: 'Sunday pour-over ritual',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/pourover-sunday.mp4',
+    productName: 'Glow Sunscreen SPF 50',
+    title: 'Glow sunscreen, in-vivo 50',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-glow-spf.mp4',
   },
   {
-    productName: 'Ceramic Pour-Over Set',
-    title: 'Bloom, pour, wait',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/pourover-bloom.mp4',
+    productName: 'Super Glow Face Wash',
+    title: 'Super glow face wash',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-wash-glow.mp4',
   },
   {
-    productName: 'Cloudfoam Runner',
-    title: 'On-foot review after 30 days',
-    videoUrl: 'https://cdn.videoselz.dev/ugc/runner-30days.mp4',
+    productName: 'Super Glow Face Wash',
+    title: 'Double cleanse, 50ml',
+    videoUrl: 'https://cdn.videoselz.dev/ugc/foxtale-wash-double.mp4',
   },
 ];
 
-// Per-video event volume + funnel mix. High-intent UGC converts; reviews less so.
+// Per-clip volume + funnel mix. The niacinamide apply reel is the closer.
 const VIDEO_PROFILES: Record<string, { events: number; view: number; click: number; add_to_cart: number }> = {
-  'Get ready with me — silk slip': { events: 420, view: 0.72, click: 0.2, add_to_cart: 0.08 },
-  'How it drapes in daylight': { events: 260, view: 0.78, click: 0.16, add_to_cart: 0.06 },
-  'Soft support, no straps showing': { events: 310, view: 0.7, click: 0.21, add_to_cart: 0.09 },
-  'Three outfits, one bralette': { events: 190, view: 0.74, click: 0.19, add_to_cart: 0.07 },
-  'Unboxing the Cloudfoam Runner': { events: 540, view: 0.68, click: 0.23, add_to_cart: 0.09 },
-  '5K in the rain — still dry': { events: 150, view: 0.8, click: 0.15, add_to_cart: 0.05 },
-  'Why merino over cotton': { events: 90, view: 0.82, click: 0.14, add_to_cart: 0.04 },
-  'One swipe, all-day tint': { events: 380, view: 0.69, click: 0.22, add_to_cart: 0.09 },
-  'Shade match: rosewood': { events: 210, view: 0.73, click: 0.19, add_to_cart: 0.08 },
-  'Sunday pour-over ritual': { events: 175, view: 0.76, click: 0.18, add_to_cart: 0.06 },
-  'Bloom, pour, wait': { events: 80, view: 0.85, click: 0.12, add_to_cart: 0.03 },
-  'On-foot review after 30 days': { events: 330, view: 0.71, click: 0.21, add_to_cart: 0.08 },
+  'Azelaic Acid. Apply, wait.': { events: 480, view: 0.67, click: 0.22, add_to_cart: 0.11 },
+  '12% Niacinamide — week two': { events: 310, view: 0.72, click: 0.2, add_to_cart: 0.08 },
+  'T-zone oil, this serum': { events: 220, view: 0.75, click: 0.18, add_to_cart: 0.07 },
+  'Cherry-collagen, ten minutes': { events: 360, view: 0.7, click: 0.21, add_to_cart: 0.09 },
+  'Sunday clay mask reset': { events: 180, view: 0.78, click: 0.16, add_to_cart: 0.06 },
+  'Moisturizer that sits under SPF': { events: 290, view: 0.73, click: 0.19, add_to_cart: 0.08 },
+  'Papaya enzyme AM': { events: 150, view: 0.8, click: 0.15, add_to_cart: 0.05 },
+  'Matte gel SPF, oily skin': { events: 340, view: 0.71, click: 0.2, add_to_cart: 0.09 },
+  'No white cast, SPF 50': { events: 210, view: 0.76, click: 0.17, add_to_cart: 0.07 },
+  'Glow sunscreen, in-vivo 50': { events: 160, view: 0.81, click: 0.14, add_to_cart: 0.05 },
+  'Super glow face wash': { events: 250, view: 0.74, click: 0.18, add_to_cart: 0.08 },
+  'Double cleanse, 50ml': { events: 90, view: 0.84, click: 0.12, add_to_cart: 0.04 },
 };
 
 function pickEventType(weights: { view: number; click: number; add_to_cart: number }): EventType {

@@ -326,7 +326,7 @@ Because multiple clips can share a SKU, the chart also exposes the relevant clip
 ```
 next i want you
 
-to also help me iwth this, i will not be using exact same prompt here that i gave you i wil twesk them
+to also help me iwth this, i will be using exact same prompt here that i gave you 
 
 4. AI Collaboration & Prompt Engineering Log
     [assignment section pasted: AI_PROMPTING.md, tool, context, exact prompt, outcome]
@@ -337,6 +337,32 @@ make sure the readme describes what is actually implemented and not what we orig
 ```
 
 **Outcome & adjustments:** Added this `AI_PROMPTING.md` and updated the README to reflect the final UI, architecture, analytics, INR formatting, shopper journey and Baggs.
+
+---
+
+## 13. Foxtale as the merchant on the dashboard
+
+**Context/Task:** The seed catalog was generic fashion. The dashboard needed to feel like a real advertiser account — Foxtale, a Shopify beauty brand — including chrome, a real shoppable reel, and matching product data.
+
+**Exact prompt used:**
+
+```
+this dashboard is for foxtale, a shopify beauty brand — treat it like their merchant view, not a generic demo store
+
+* use this as favicon: https://cdn.prod.website-files.com/652b6616722f7ce55d84406d/6729bc46df15948d2e6e806a_fav-iconx32.png
+* add advertiser details on the dashboard as well, like this is for foxtale (shopify · beauty)
+* put this screenshot on the first card as the best performing clip — it is a foxtale video ad for 12% niacinamide clarifying serum
+* keep the still rounded-8px, top right of the conversion card, same row as the big conversion number
+* the best performer treatment should look authentic, not a forced badge
+* left side content on that card should belong to the clip in height, no blank space underneath
+* if it makes sense, update the seed data with foxtale products from their catalog so the table and chart are the same brand
+  https://foxtale-consumer.myshopify.com/products.json
+* do not commit anything
+```
+
+**Outcome & adjustments:** Scoped the dashboard to Foxtale (header advertiser, favicon, conversion kicker). The conversion card uses the niacinamide shoppable reel as the top clip, 8px corners, metrics locked to the still height.
+
+Seed data was switched from mixed fashion SKUs to Foxtale products from their Shopify catalog (serums, mask, moisturizer, SPF, face wash), with the niacinamide apply reel weighted as the closer. Placeholder CDN URLs were kept — still no live `<video>` tags.
 
 ---
 
