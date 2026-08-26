@@ -1,0 +1,144 @@
+.dock {
+  position: fixed;
+  right: 20px;
+  bottom: calc(18px + env(safe-area-inset-bottom, 0px));
+  z-index: 40;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 10px;
+  pointer-events: none;
+}
+
+.bubble,
+.bag {
+  pointer-events: auto;
+}
+
+.bubble {
+  width: min(280px, calc(100vw - 48px));
+  background: #171a1e;
+  color: #f4f1ea;
+  border-radius: 16px 16px 6px 16px;
+  padding: 12px 14px 10px;
+  box-shadow: 0 16px 36px rgba(21, 24, 28, 0.22);
+}
+
+.who {
+  margin: 0 0 4px;
+  font-size: 11px;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: #8eb8e8;
+  font-weight: 600;
+}
+
+.line {
+  margin: 0;
+  font-size: 14px;
+  line-height: 1.45;
+}
+
+.bubbleRow {
+  display: flex;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.ghost {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  color: #c9dff5;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 0;
+}
+
+.ghost:hover {
+  color: #fff;
+}
+
+.bag {
+  appearance: none;
+  border: 0;
+  background: transparent;
+  padding: 0;
+  position: relative;
+  animation: float 3.4s ease-in-out infinite;
+}
+
+.bag:hover {
+  transform: translateY(-2px);
+}
+
+.still,
+.still.celebrate,
+.still.watching {
+  animation: none;
+}
+
+.celebrate {
+  animation: hop 0.7s ease;
+}
+
+.watching {
+  animation: peek 0.9s ease infinite;
+}
+
+.spark {
+  position: absolute;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #e8c36a;
+  top: 8px;
+  right: 10px;
+  opacity: 0;
+}
+
+.celebrate .spark {
+  animation: spark 0.8s ease;
+}
+
+.sparkTwo {
+  top: 18px;
+  right: 28px;
+  width: 6px;
+  height: 6px;
+  animation-delay: 0.12s;
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-7px); }
+}
+
+@keyframes hop {
+  0% { transform: translateY(0) scale(1); }
+  35% { transform: translateY(-16px) scale(1.04); }
+  100% { transform: translateY(0) scale(1); }
+}
+
+@keyframes peek {
+  0%, 100% { transform: rotate(-4deg); }
+  50% { transform: rotate(5deg); }
+}
+
+@keyframes spark {
+  0% { opacity: 0; transform: scale(0.4) translateY(0); }
+  40% { opacity: 1; }
+  100% { opacity: 0; transform: scale(1) translateY(-12px); }
+}
+
+@media (max-width: 640px) {
+  .dock {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .bag svg {
+    width: 68px;
+    height: 84px;
+  }
+}

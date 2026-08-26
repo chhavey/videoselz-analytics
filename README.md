@@ -52,11 +52,12 @@ There is no separate migration runner beyond `schema.sql`. The API applies the s
 
 ## What to click through
 
-1. Open the dashboard — KPI strip + paginated video table.
-2. Conversion rate column is computed in the browser: `add_to_carts / views`.
-3. Sort by views, clicks, add-to-carts, title, or product.
-4. Paginate (8 videos per page).
-5. **Simulate traffic** posts a weighted random event (`view` 70% / `click` 22% / `add_to_cart` 8%) to `POST /api/events`, then refreshes the table.
+1. Open the dashboard — **store conversion** (left) and **how a shopper moves** (right), then **conversion by clip**, then the paginated table.
+2. Conversion rate is computed in the browser: `add_to_carts / views` (table column, hero %, and chart).
+3. Hover a chart bar — full product name sits under the column; the line below the plot shows the clip title.
+4. Sort the table by views, clicks, add-to-carts, title, or product. Prices are INR.
+5. Paginate (8 videos per page).
+6. **Simulate traffic** posts a weighted random event (`view` 70% / `click` 22% / `add_to_cart` 8%) to `POST /api/events`. Baggs reacts; numbers refresh.
 
 ---
 
@@ -102,7 +103,7 @@ storefront / simulator
 
 - **Normalized SQL, not a single wide table.** Products 1—N videos 1—N events. Matches how a Shopify catalog actually looks (a SKU can have several UGC clips).
 - **Aggregate in the database.** An events table grows fast. Grouping in SQL with an index on `(video_id, event_type)` stays cheap; pulling every row into JS would not.
-- **Prices as integer cents.** Avoids `0.1 + 0.2` bugs. Formatted to USD on the client.
+- **Prices as integer rupees.** Formatted to INR on the client (`en-IN`).
 - **WAL mode.** Analytics reads should not block a burst of webhook writes.
 - **Validation with Zod at the edge.** Bad payloads fail before they touch SQLite.
 - **Conversion rate on the client.** The spec is explicit. It also keeps the metric definition next to the UI so a merchant-facing change (e.g. “clicks / views”) does not require a migration.
@@ -132,30 +133,28 @@ engagement_events (id, video_id → videos.id, event_type, timestamp)
 
 Styling is semantic HTML + CSS modules. No Tailwind, per the brief.
 
-The layout is a merchant admin, not a marketing page: dark rail, paper canvas, one primary action (simulate traffic). Conversion rate is color-banded so a merchant can scan for clips that view well but do not convert.
+The screen is a merchant admin, not a marketing page:
+
+- **60 / 40 split:** store conversion (rate, counts, best clip) and shopper path (watch → tap → bag, bars to scale).
+- **Conversion by clip:** CSS column chart, no chart library. Product name wraps under each bar; clip title is in the readout (two clips can share a SKU).
+- **Table** under that: play-circle icons, INR prices, client-side conversion rate, pagination.
+- **Baggs** in the corner for tips after simulate-traffic. Not a replacement for the table.
+
+Type: Plus Jakarta Sans for UI, Instrument Serif for the hero rate. Color: warm paper, Videoselz blue only on the primary action and the leading chart bar.
+
+---
+
+## AI collaboration
+
+How I prompted, what the model produced, and what I changed: **[AI_PROMPTING.md](./AI_PROMPTING.md)**.
 
 ---
 
 ## Submission links
 
-Replace these after recording.
-
 - **30-second pitch (YouTube, unlisted):** `https://youtu.be/REPLACE_ME`
-- **3–5 min walkthrough (Loom / unlisted YouTube):** `https://youtu.be/REPLACE_ME`
+- **3–5 min walkthrough (Loom):** `https://youtu.be/REPLACE_ME`
 
-### Pitch script (~30s)
-
-> I'm Chhavi, a full-stack developer with about three years building product-facing MERN apps. I care about the why behind a bug, not just the patch — and I'm used to reviewing both human and AI-written code before it ships. Videoselz sits at the exact intersection I like: Shopify merchants, shoppable video, and a dashboard that has to be fast and honest about conversion. This take-home is a slice of that: ingest events like a webhook, aggregate in SQL, and let the UI own the conversion-rate definition. I'd like to do that work on the real product.
-
-### Walkthrough outline (3–5 min)
-
-1. Clone → seed → both servers up (30s).
-2. Schema + why cents / indexes / WAL (45s).
-3. `POST /api/events` in the Network tab, then Simulate (45s).
-4. Table, CVR formula on the client, pagination, sort (60s).
-5. One design tradeoff (SQL aggregation vs. rollups) (30s).
-
----
 
 ## Other public work
 
@@ -188,7 +187,9 @@ backend/
 frontend/
   src/
     api/           fetch client
+    hooks/         dashboard data (table, chart, simulate)
+    components/    chart, table, shopper path, Baggs
     utils/         conversion rate + traffic simulator
-    App.tsx        dashboard
-    App.module.css
+    App.tsx        layout only
+    styles/        global tokens
 ```
