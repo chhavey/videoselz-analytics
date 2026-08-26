@@ -1,5 +1,5 @@
 -- Normalized shoppable-video schema.
--- Prices are stored as integer cents to avoid floating-point drift.
+-- Prices are stored as integer rupees.
 
 PRAGMA foreign_keys = ON;
 
